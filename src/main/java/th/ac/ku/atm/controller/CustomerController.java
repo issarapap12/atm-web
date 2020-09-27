@@ -12,29 +12,24 @@ import th.ac.ku.atm.services.CustomerService;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-
     private CustomerService customerService;
-
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    @GetMapping
-    public String getCustomerPage(Model model){
-
-        model.addAttribute("allCustomers",customerService.getCustomers());
-
-
-        return "customer"; //customer.html (template)
+    @GetMapping()
+    public String getCustomerPage(Model model) {
+        model.addAttribute("title","All Customers");
+        model.addAttribute("titleRegister","Register Customer");
+        model.addAttribute("allCustomers",customerService.getCustomerList());
+        return "customer";
     }
 
-    @PostMapping
-    public String registerCustomer(@ModelAttribute Customer customer, Model model){
-
-
+    @PostMapping()
+    public String registerAccount(@ModelAttribute Customer customer, Model model) {
         customerService.createCustomer(customer);
-        model.addAttribute("allCustomer",customerService.getCustomers());
+        model.addAttribute("allCustomer",customerService.getCustomerList());
         return "redirect:customer";
     }
 }
